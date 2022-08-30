@@ -1,0 +1,36 @@
+services:
+  backend_system:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file:
+      - ./env/.env
+    depends_on:
+      - db_system
+    restart: on-failure
+    ports:
+      - 8000:8000
+    networks:
+      - backend_system_network
+      - db_system_network
+    volumes:
+      - .:/app
+  db_system:
+    image: postgres:14-alpine
+    volumes:
+      - db_system_volume:/var/lib/postgresql/data
+    env_file:
+      - ./env/.env
+    ports:
+      - 5432:5432
+    networks:
+      - db_system_network
+volumes:
+  db_system_volume:
+
+networks:
+  backend_system_network:
+    driver: bridge
+  db_system_network:
+    driver: bridge
