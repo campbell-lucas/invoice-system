@@ -1,7 +1,7 @@
 asgiref==3.5.2
 attrs==22.1.0
 dj-database-url==1.0.0
-Django==4.1
+Django~=4.0.4
 django-environ==0.9.0
 iniconfig==1.1.1
 packaging==21.3
@@ -13,3 +13,6 @@ pytest==7.1.2
 pytest-django==4.5.2
 sqlparse==0.4.2
 tomli==2.0.1
+
+environ~=1.0
+dj-config-url~=0.1.1
