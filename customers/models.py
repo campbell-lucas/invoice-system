@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from users.models import CustomUser
 
 
 def validate_length(value):
@@ -27,7 +28,8 @@ class Customer(models.Model):
         (NET_90, '90 Days NET'),
     )
 
-    # sales_manager = models.ForeignKey()
+    sales_manager = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    collector = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     number = models.PositiveIntegerField(validators=[validate_length])
     name = models.CharField(max_length=200)
     customer_country = models.CharField(max_length=200)
@@ -39,3 +41,6 @@ class Customer(models.Model):
     credit_limit = models.IntegerField()
     credit_limit_currency_code = models.CharField(max_length=10)
     payment_terms = models.CharField(choices=PAYMENT_TERMS, default=NET_30)
+
+    def __str__(self):
+        return self.number
