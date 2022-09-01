@@ -59,3 +59,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     objects = CustomAccountManager()
+
+
+class Test(models.Model):
+    username = models.CharField(max_length=100)
