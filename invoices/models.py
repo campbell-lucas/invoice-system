@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 from customers.models import validate_length, Customer
 
@@ -33,8 +34,14 @@ class Invoice(models.Model):
     value = models.IntegerField()
     order_date = models.DateField(auto_now_add=True)
     due_date = models.DateField(auto_now=True)
-    payment_terms = models.CharField(choices=PAYMENT_TERMS)
-    status = models.CharField(choices=STATUS_CHOICES, default="CURRENT")
+    payment_terms = models.CharField(choices=PAYMENT_TERMS, max_length=100)
+    status = models.CharField(choices=STATUS_CHOICES, default="CURRENT", max_length=100)
+    slug = models.SlugField(default='', unique=True)
 
     def __str__(self):
         return self.number
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.number)
+        return super().save(*args, **kwargs)

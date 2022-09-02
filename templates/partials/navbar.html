@@ -14,8 +14,18 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'home:home' %}">Home</a>
                 </li>
+                {% if not user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="">{{ user }}</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="">{% if user.is_authenticated %}Welcome {{ user.first_name }} !{% endif %}</a>
                 </li>
             </ul>
         </div>
