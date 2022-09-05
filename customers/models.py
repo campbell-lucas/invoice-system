@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -45,7 +46,7 @@ class Customer(models.Model):
     slug = models.SlugField(blank=True, unique=True)
 
     def __str__(self):
-        return self.number
+        return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:
