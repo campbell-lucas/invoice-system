@@ -1,0 +1,34 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
+from . import models
+
+
+class CreateCustomerView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = models.Customer
+    fields = [
+        'number',
+        'name',
+        'bill_to_address',
+        'ship_to_address',
+        'customer_country',
+        'phone_number',
+        'email',
+        'credit_limit',
+        'order_limit',
+        'credit_limit_currency_code',
+        'payment_terms',
+        'collector',
+        'sales_manager',
+
+    ]
+    template_name = 'customers/create_customer.html'
+    login_url = reverse_lazy('home:home')
+    permission_required = 'customers.add_customer'
+    raise_exception = False
+    success_url = reverse_lazy('home:home')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
