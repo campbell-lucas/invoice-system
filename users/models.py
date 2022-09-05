@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin, Group
 from django.db import models
 
@@ -58,8 +59,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
+    def save(self, *args, **kwargs):
+        self.password = make_password(self.password)
+        return super().save(*args, **kwargs)
+
     objects = CustomAccountManager()
-
-
-class Test(models.Model):
-    username = models.CharField(max_length=100)
