@@ -1,8 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DetailView
 from users.models import CustomUser
 from . import models
+
+
+class CustomerView(LoginRequiredMixin, ListView):
+    model = models.Customer
+    template_name = 'customers/customer_list_view.html'
+    context_object_name = 'customers'
 
 
 class CreateCustomerView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -38,3 +44,8 @@ class CreateCustomerView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class CustomerDetailView(LoginRequiredMixin, DetailView):
+    model = models.Customer
+    template_name = 'customers/customer_detailed_view.html'

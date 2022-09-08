@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {% if user.is_authenticated %}
+        {% for customer in customers %}
+            <div>
+                <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}">{{ customer.name }}</a>
+            </div>
+            {% empty %}
+            <h2>No customers registered to your account</h2>
+        {% endfor %}
+    {% endif %}
+{% endblock container %}
