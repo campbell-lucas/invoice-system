@@ -12,7 +12,7 @@ class CreateCustomerView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
         'name',
         'bill_to_address',
         'ship_to_address',
-        'customer_country',
+        'country',
         'phone_number',
         'email',
         'credit_limit',
