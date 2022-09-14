@@ -6,6 +6,21 @@
         <h1>Please log in to get started</h1>
     {% endif %}
     {% if user.is_authenticated %}
-        <h1>Home</h1>
+        <h1>Customers in your portfolio</h1><br>
+        {% for customer in customers %}
+            <h3>{{ customer.name }} -
+                <button class="btn btn-primary btn-sm">
+                    <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}" style="color: white">Details</a>
+                </button> -
+                <button class="btn btn-primary btn-sm">
+                    <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.pk %}" style="color: white">View Invoices</a>
+                </button> -
+                <button class="btn btn-primary btn-sm">
+                    <a href="{% url 'home:send_email' pk=customer.pk %}" style="color: white">Send Email</a>
+                </button>
+            </h3>
+            {% empty %}
+            <p>No customers</p>
+        {% endfor %}
     {% endif %}
 {% endblock container %}

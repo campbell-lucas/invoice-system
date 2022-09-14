@@ -10,6 +10,10 @@ dj-database-url = "==1.0.0"
 psycopg2 = "==2.9.3"
 pytest-django = "==4.5.2"
 pytest-cov = "==3.0.0"
+django-crispy-forms = "==1.14.0"
+crispy-bootstrap5 = "*"
+reportlab = "*"
+xhtml2pdf = "*"
 
 [dev-packages]
 

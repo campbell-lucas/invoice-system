@@ -2,9 +2,10 @@
 
 {% block container %}
     {% if user.is_authenticated %}
+        <h2>Customers in your portfolio</h2><br>
         {% for customer in customers %}
             <div>
-                <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}">{{ customer.name }}</a>
+                <p>{{ customer.name }} - <a href="{% url 'customers:customer_detail_view' slug=customer.slug%}">Details</a> <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.id %}">Invoices</a></p>
             </div>
             {% empty %}
             <h2>No customers registered to your account</h2>

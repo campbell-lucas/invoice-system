@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    {% if not invoices.count == 0 %}
+    <div class="col-md-9">
+        <table class="table table-borderless">
+            <thead>
+            <tr>
+                <th>
+                    Invoice number
+                </th>
+                <th>
+                    Invoice order date
+                </th>
+                <th>
+                    Invoice due date
+                </th>
+                <th>
+                    Invoice status
+                </th>
+            </tr>
+            {% endif %}
+            </thead>
+            <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <td>
+                        {{ invoice.number }}
+                    </td>
+                    <td>
+                        {{ invoice.order_date }}
+                    </td>
+                    <td>
+                        {{ invoice.due_date }}
+                    </td>
+                    <td>
+                        {{ invoice.status }}
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-sm"><a href="{% url 'invoices:render-pdf' number=invoice.number %}" style="color: white">Download</a></button>
+                    </td>
+                </tr>
+            {% empty %}
+                No invoices
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock container %}

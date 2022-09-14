@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView
+from invoices.models import Invoice
 from users.models import CustomUser
 from . import models
 
@@ -49,3 +50,12 @@ class CreateCustomerView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
 class CustomerDetailView(LoginRequiredMixin, DetailView):
     model = models.Customer
     template_name = 'customers/customer_detailed_view.html'
+
+
+class CustomerInvoicesView(LoginRequiredMixin, ListView):
+    model = Invoice
+    template_name = 'customers/customer_invoice_view.html'
+    context_object_name = 'invoices'
+
+    def get_queryset(self):
+        return Invoice.objects.filter(customer_id=self.kwargs.get('pk'))
