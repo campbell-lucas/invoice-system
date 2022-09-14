@@ -31,7 +31,7 @@ class CustomerCountry(models.Model):
 class Customer(models.Model):
     sales_manager = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='sales_manager')
     collector = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='collector')
-    number = models.PositiveIntegerField(validators=[validate_length])
+    number = models.PositiveIntegerField(validators=[validate_length], unique=True)
     name = models.CharField(max_length=200)
     country = models.ForeignKey(CustomerCountry, on_delete=models.CASCADE, related_name='customer_country')
     bill_to_address = models.CharField(max_length=250)

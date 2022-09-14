@@ -2,10 +2,10 @@
 {% load crispy_forms_tags %}
 
 {% block container %}
-    <h2>Login</h2>
-    <form action="" method="post">
+    <h1>Contact</h1>
+    <form action="" method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit">Log In</button>
+        <button>Send</button>
     </form>
 {% endblock container %}

@@ -48,8 +48,14 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'invoices.apps.InvoicesConfig',
     'customers.apps.CustomersConfig',
+    'templatetags',
+    'crispy_forms',
+    'crispy_bootstrap5',
 
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,6 +81,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'auth_extras': 'templatetags.auth_extras'
+            }
         },
     },
 ]

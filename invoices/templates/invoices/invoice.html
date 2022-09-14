@@ -1,0 +1,40 @@
+{% block container %}
+
+    <div class="col-md-9">
+        <table class="table table-borderless">
+            <thead>
+            <tr>
+                <th>
+                    Invoice number
+                </th>
+                <th>
+                    Invoice order date
+                </th>
+                <th>
+                    Invoice due date
+                </th>
+                <th>
+                    Invoice status
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    {{ invoice.number }}
+                </td>
+                <td>
+                    {{ invoice.order_date }}
+                </td>
+                <td>
+                    {{ invoice.due_date }}
+                </td>
+                <td>
+                    {{ invoice.status }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock container %}
