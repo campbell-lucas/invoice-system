@@ -18,11 +18,10 @@ class HomeView(ListView):
 
 
 def send_email(request, pk):
-    if request.method == 'POST':
-        form = SendEmailForm(request.POST)
+    to_email = Customer.objects.get(pk=pk).email
+    form = SendEmailForm(request.POST)
+    if form.is_valid():
+        return redirect('home:home')
 
-        if form.is_valid():
-            return redirect('home:home')
-    else:
-        form = SendEmailForm(initial={'from_email': request.user.email})
+    form = SendEmailForm(initial={'from_email': request.user.email, 'to_email': to_email})
     return render(request, 'home/send-email.html', {'form': form})

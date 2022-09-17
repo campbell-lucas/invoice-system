@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load auth_extras %}
 
 
 {% block container %}
@@ -10,16 +11,20 @@
         {% for customer in customers %}
             <h3>{{ customer.name }} -
                 <button class="btn btn-primary btn-sm">
-                    <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}" style="color: white">Details</a>
-                </button> -
+                    <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}"
+                       style="color: white">Details</a>
+                </button>
+                -
                 <button class="btn btn-primary btn-sm">
-                    <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.pk %}" style="color: white">View Invoices</a>
-                </button> -
+                    <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.pk %}"
+                       style="color: white">View Invoices</a>
+                </button>
+                -
                 <button class="btn btn-primary btn-sm">
                     <a href="{% url 'home:send_email' pk=customer.pk %}" style="color: white">Send Email</a>
                 </button>
             </h3>
-            {% empty %}
+        {% empty %}
             <p>No customers</p>
         {% endfor %}
     {% endif %}

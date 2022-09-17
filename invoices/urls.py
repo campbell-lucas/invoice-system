@@ -6,5 +6,6 @@ app_name = 'invoices'
 
 urlpatterns = [
     path('pdf/<int:number>/', views.render_pdf_view, name='render-pdf'),
-    path('invoice/<int:number>', views.show_invoice, name='show-invoice'),
+    path('create-invoice/', views.create_invoice_view, name='create-invoice'),
+    path('add-invoice-products/', views.create_invoice_products, name='add-invoice-products'),
 ]
