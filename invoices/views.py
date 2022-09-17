@@ -1,44 +1,15 @@
-import os
-from django.conf import settings
+from datetime import date, timedelta
+
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.template.defaultfilters import slugify
 from django.template.loader import get_template
+from django.urls import reverse_lazy
 from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
 
-from invoices.models import Invoice
-
-
-def show_invoice(request, number):
-    invoice = Invoice.objects.get(number=number)
-    return render(request, 'invoices/invoice.html', {'invoice': invoice})
-
-
-# def link_callback(uri, rel):
-#     result = finders.find(uri)
-#     if result:
-#         if not isinstance(result, (list, tuple)):
-#             result = [result]
-#         result = list(os.path.realpath(path) for path in result)
-#         path = result[0]
-#     else:
-#         sUrl = settings.STATIC_URL
-#         sRoot = settings.STATIC_ROOT
-#         mUrl = settings.MEDIA_URL
-#         mRoot = settings.MEDIA_ROOT
-#
-#         if uri.startswith(mUrl):
-#             path = os.path.join(mRoot, uri.replace(mUrl, ""))
-#         elif uri.startswith(sUrl):
-#             path = os.path.join(sRoot, uri.replace(sUrl, ""))
-#         else:
-#             return uri
-#
-#     if not os.path.isfile(path):
-#         raise Exception(
-#             'media URI must start with %s or %s' % (sUrl, mUrl)
-#         )
-#     return path
+from invoices import forms
+from invoices.models import Invoice, Product
+from customers.models import Customer
 
 
 def render_pdf_view(request, number):
@@ -46,7 +17,7 @@ def render_pdf_view(request, number):
     template_path = 'invoices/invoice.html'
     context = {'invoice': invoice}
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="invoice.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{invoice}.pdf"'
     template = get_template(template_path)
     html = template.render(context)
 
@@ -55,3 +26,44 @@ def render_pdf_view(request, number):
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+
+def create_invoice_view(request):
+    form = forms.CreateInvoice(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            invoice = form.save(commit=False)
+            invoice.slug = slugify(invoice.number)
+
+            if invoice.payment_terms_id == 1:
+                invoice.due_date = (date.today() + timedelta(days=0))
+            if invoice.payment_terms_id == 2:
+                invoice.due_date = (date.today() + timedelta(days=14))
+            if invoice.payment_terms_id == 3:
+                invoice.due_date = (date.today() + timedelta(days=30))
+            if invoice.payment_terms_id == 4:
+                invoice.due_date = (date.today() + timedelta(days=60))
+            if invoice.payment_terms_id == 5:
+                invoice.due_date = (date.today() + timedelta(days=90))
+
+            if invoice.today_date >= invoice.due_date:
+                invoice.status_id = 2
+            else:
+                invoice.status_id = 3
+
+            invoice.save()
+
+            return redirect(reverse_lazy('invoices:add-invoice-products'), pk=1)
+    return render(request, 'invoices/create_invoice.html', {'form': form})
+
+
+def create_invoice_products(request):
+    form = forms.AddInvoiceProducts(request.POST or None, request.FILES or None)
+    if request.method == "POST":
+        if form.is_valid():
+            product = form.save(commit=False)
+
+            product.save()
+
+            return redirect(reverse_lazy('home:home'))
+    return render(request, 'invoices/add_invoice_products.html', {'form': form})

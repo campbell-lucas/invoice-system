@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
+{% load auth_extras %}
 
 {% block container %}
     {% if user.is_authenticated %}
         <h2>Customers in your portfolio</h2><br>
         {% for customer in customers %}
             <div>
-                <p>{{ customer.name }} - <a href="{% url 'customers:customer_detail_view' slug=customer.slug%}">Details</a> <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.id %}">Invoices</a></p>
+                <p>{{ customer.name }} - <a href="{% url 'customers:customer_detail_view' slug=customer.slug%}">Details</a>
+                    <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.id %}">Invoices</a>
+                    {% if request.user|has_group:'sales_managers' %}
+                            <a class="nav-link active" aria-current="page" href="https://www.google.com">Create
+                                Invoice</a>
+                    {% endif %}
+                </p>
             </div>
+
             {% empty %}
             <h2>No customers registered to your account</h2>
         {% endfor %}
