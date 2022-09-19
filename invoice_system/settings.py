@@ -156,3 +156,5 @@ AUTH_USER_MODEL = 'users.CustomUser'
 
 LOGIN_REDIRECT_URL = 'home:home'
 LOGOUT_REDIRECT_URL = 'home:home'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

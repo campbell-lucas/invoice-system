@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView
 from customers.models import Customer
@@ -5,7 +6,7 @@ from users.models import CustomUser
 from .forms import SendEmailForm
 
 
-class HomeView(ListView):
+class HomeView(LoginRequiredMixin, ListView):
     model = Customer
     template_name = 'home/home.html'
     context_object_name = 'customers'

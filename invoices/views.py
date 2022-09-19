@@ -53,7 +53,7 @@ def create_invoice_view(request):
 
             invoice.save()
 
-            return redirect(reverse_lazy('invoices:add-invoice-products'), pk=1)
+            return redirect(reverse_lazy('invoices:add-invoice-products'))
     return render(request, 'invoices/create_invoice.html', {'form': form})
 
 
