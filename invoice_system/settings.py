@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'templatetags',
     'crispy_forms',
     'crispy_bootstrap5',
+    'debug_toolbar',
 
 ]
 
@@ -58,6 +59,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -146,7 +148,7 @@ STATICFILES_FINDERS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -154,7 +156,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomUser'
 
-LOGIN_REDIRECT_URL = 'home:home'
-LOGOUT_REDIRECT_URL = 'home:home'
+LOGIN_REDIRECT_URL = 'home:landing'
+LOGOUT_REDIRECT_URL = 'home:landing'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
