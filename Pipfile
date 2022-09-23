@@ -15,6 +15,7 @@ crispy-bootstrap5 = "*"
 reportlab = "*"
 xhtml2pdf = "*"
 celery = "==5.2.7"
+django-debug-toolbar = "==3.6.0"
 
 [dev-packages]
 
