@@ -49,12 +49,6 @@
             <button class="btn btn-primary btn-sm"><a href="{% url 'invoices:render-pdf' number=invoice.number %}"
                                                       style="color: white">Download</a></button>
         </td>
-
-        <td>
-            <button class="btn btn-primary btn-sm"><a href="{% url 'invoices:render-pdf' number=invoice.number %}"
-                                                      style="color: white">Edit</a></button>
-        </td>
-
     </tr>
 
 {% empty %}
