@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load auth_extras %}
+{% load static %}
 
+<link rel="stylesheet" href="{% static 'styles/main.css' %}">
 
 {% block container %}
     {% if not user.is_authenticated %}
@@ -8,24 +10,27 @@
     {% endif %}
     {% if user.is_authenticated %}
         <h1>Customers in your portfolio</h1><br>
-        {% for customer in customers %}
-            <h3>{{ customer.name }} -
-                <button class="btn btn-primary btn-sm">
-                    <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}"
-                       style="color: white">Details</a>
-                </button>
-                -
-                <button class="btn btn-primary btn-sm">
-                    <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.pk %}"
-                       style="color: white">View Invoices</a>
-                </button>
-                -
-                <button class="btn btn-primary btn-sm">
-                    <a href="{% url 'home:send_email' pk=customer.pk %}" style="color: white">Send Email</a>
-                </button>
-            </h3>
-        {% empty %}
-            <p>No customers</p>
-        {% endfor %}
+        <div class="row">
+            {% for customer in customers %}
+                <h3>{{ customer.name }} -
+                    <button class="btn btn-primary btn-sm" id="details">
+                        <a href="{% url 'customers:customer_detail_view' slug=customer.slug %}"
+                           style="color: white">Details</a>
+                    </button>
+                    -
+                    <button class="btn btn-primary btn-sm" id="view-invoices">
+                        <a href="{% url 'customers:customer_invoice_view' slug=customer.slug pk=customer.pk %}"
+                           style="color: white">View Invoices</a>
+                    </button>
+                    -
+                    <button class="btn btn-primary btn-sm" id="send-email">
+                        <a href="{% url 'home:send_email' pk=customer.pk %}" style="color: white">Send Email</a>
+                    </button>
+                </h3>
+            {% empty %}
+                <p>No customers</p>
+            {% endfor %}
+        </div>
+
     {% endif %}
 {% endblock container %}
