@@ -7,6 +7,9 @@ from . import forms
 
 
 def registration_view(request):
+    """
+    this view is used for creating customers
+    """
     form = forms.RegistrationForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         if form.is_valid():
