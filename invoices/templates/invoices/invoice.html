@@ -1,84 +1,50 @@
+{% load static %}
+<link rel="stylesheet" href={% static 'styles/main.css' %}>
 {% block container %}
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <!------ Include the above in your HEAD tag ---------->
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="invoice-title">
-                    <h2>Invoice #{{ invoice.number }}</h2>
-                </div>
-                <hr>
+    <div class="card">
+        <div class="card-body mx-4">
+            <div class="container">
+                <p class="my-5 mx-5" style="font-size: 40px;">Invoice #{{ invoice.number }}</p>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <address>
-                            <strong>Billed To:</strong><br>
-                            {{ invoice.customer.name }}<br>
-                            {{ invoice.customer.bill_to_address }}
-                        </address>
+                    <div class="order-date" style="font-size: 15px">
+                        <strong>Order date: {{ invoice.order_date }}</strong>
                     </div>
-                    <div class="col-xs-6 text-right">
-                        <address>
-                            <strong>Shipped To:</strong><br>
-                            {{ invoice.customer.name }}<br>
-                            {{ invoice.customer.bill_to_address }}
-                        </address>
+                    <div class="due-date" style="font-size: 15px">
+                        <strong>Due date: {{ invoice.due_date }}</strong>
                     </div>
+                    <strong class="customer-name" style="font-size: 15px">{{ invoice.customer.name }}</strong>
+                    <li class="bill_to_address" style="font-size: 15px">
+                        {{ invoice.customer.bill_to_address }}
+                    </li>
+                    {% for product in invoice.products.all %}
+                            <hr>
+                            <div class="col-xl-10" style="font-size: 15px">
+                                <p>{{ product }} - Quantity: {{ quantity }}</p>
+                            </div>
+                            <div class="col-xl-2">
+                                <p class="float-end" style="font-size: 15px"> - {{ product.price }} {{ invoice.currency_code }} (price per 1
+                                    item)
+                                </p>
+                            </div>
+                    {% endfor %}
+                    <hr style="border: 2px solid black;">
                 </div>
-                <div class="row">
-                    <div class="col-xs-6 text-right">
-                        <address>
-                            <strong>Order Date:</strong><br>
-                            {{ invoice.order_date }}<br><br>
-                        </address>
-                        <address>
-                            <strong>Due Date:</strong><br>
-                            {{ invoice.due_date }}<br><br>
-                        </address>
-                    </div>
-                </div>
-            </div>
-        </div>
+                <div class="row text-black">
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Order summary</strong></h3>
+                    <div class="col-xl-12">
+                        <p class="float-end fw-bold" style="font-size: 20px">Total: {{ total }} {{ invoice.currency_code }}
+                        </p>
                     </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-condensed">
-                                <thead>
-                                <tr>
-                                    <td><strong>Item</strong></td>
-                                    <td class="text-center"><strong>Price</strong></td>
-                                    <td class="text-center"><strong>Quantity</strong></td>
-                                    <td class="text-right"><strong>Totals</strong></td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <!-- foreach ($order->lineItems as $line) or some such thing here -->
-                                <tr>
-                                    {% for product in invoice.products.all %}
-                                    <td>{{ product }}</td>
-                                    <td class="text-center">{{ product.price }}</td>
-                                    {% endfor %}
-{#                                    <td class="text-center">{{ invoice.invoiceproducts }}</td>#}
-                                </tr>
-                                <tr>
-                                    <td class="no-line"></td>
-                                    <td class="no-line"></td>
-                                    <td class="no-line text-center"><strong>Total</strong></td>
-                                    <td class="no-line text-right">{{ invoice.value }}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <hr style="border: 2px solid black;">
+                    <div class="col-xl-12">
+                        <p class="float-end fw-bold" style="font-size: 15px">Please pay to the below bank account within {{ invoice.payment_terms }}</p>
+                        <p class="float-end fw-bold" style="font-size: 15px">International Bank of the World</p>
+                        <p class="float-end fw-bold" style="font-size: 15px">IBAN: WO123123123123123123</p>
+                        <p class="float-end fw-bold" style="font-size: 15px">SWIFT / BIC: WO875WO90</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

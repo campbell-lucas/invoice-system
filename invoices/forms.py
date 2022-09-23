@@ -4,6 +4,9 @@ from invoices.models import Invoice, InvoiceProduct
 
 
 class CreateInvoice(forms.ModelForm):
+    """
+    this class is used to create the form for creating invoices
+    """
 
     class Meta:
         model = Invoice
@@ -15,6 +18,9 @@ class CreateInvoice(forms.ModelForm):
 
 
 class AddInvoiceProducts(forms.ModelForm):
+    """
+    this class is used to show the fields needed to add products to invoices
+    """
 
     class Meta:
         model = InvoiceProduct

@@ -8,14 +8,21 @@ from django.urls import reverse_lazy
 from xhtml2pdf import pisa
 
 from invoices import forms
-from invoices.models import Invoice, Product
+from invoices.models import Invoice, InvoiceProduct
 from customers.models import Customer
 
 
 def render_pdf_view(request, number):
+    """
+    this function is used to generate pdfs
+    """
     invoice = Invoice.objects.get(number=number)
+    invoice_items = InvoiceProduct.objects.filter(invoice=number)
+    for product in invoice_items:
+        total = product.product.price * product.quantity
+        quantity = product.quantity
     template_path = 'invoices/invoice.html'
-    context = {'invoice': invoice}
+    context = {'invoice': invoice, 'total': total, 'invoice_items': invoice_items, 'quantity': quantity}
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{invoice}.pdf"'
     template = get_template(template_path)
@@ -29,6 +36,9 @@ def render_pdf_view(request, number):
 
 
 def create_invoice_view(request):
+    """
+    this function is used in creating the invoices
+    """
     form = forms.CreateInvoice(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         if form.is_valid():
@@ -58,6 +68,9 @@ def create_invoice_view(request):
 
 
 def create_invoice_products(request):
+    """
+    this function is used to add products to the invoices
+    """
     form = forms.AddInvoiceProducts(request.POST or None, request.FILES or None)
     if request.method == "POST":
         if form.is_valid():
@@ -65,5 +78,5 @@ def create_invoice_products(request):
 
             product.save()
 
-            return redirect(reverse_lazy('home:home'))
+            return redirect(reverse_lazy('home:customer-list'))
     return render(request, 'invoices/add_invoice_products.html', {'form': form})
