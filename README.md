@@ -1,3 +1,3 @@
 # Invoice System
 ## Lucas Campbell
-<br>
+<hr>
