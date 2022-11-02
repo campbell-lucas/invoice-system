@@ -1,7 +1,5 @@
 # Invoice System Project
 
-<p>In order to get the project up and running make sure you create a .env file and put your environment variables in the file. Template of the file can be found as .env-default<p>
-
 <hr>
 
 <p>The project is my take on an invoicing system where there are different accounts for different users. Collectors account can download invoices, see the clients in their portfolio and send emails to them<p>
